@@ -1,0 +1,242 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  
+  /* --- Figma Light Mode --- */
+  --bg-app: #F8F9FA;           /* Themed white (slightly blue-tinted) */
+  --bg-surface: #FFFFFF;        /* Card/Surface background */
+  --bg-elevated: #FFFFFF;       /* Elevated surfaces */
+  --border-color: #E6E8EB;      /* Clean 1px borders */
+  --text-primary: #111827;      /* Primary text */
+  --text-secondary: #6B7280;    /* Secondary text */
+  --text-tertiary: #9CA3AF;     /* Tertiary/disabled text */
+  
+  /* --- Brand Colors --- */
+  --brand-primary: #0D99FF;     /* Figma Blue */
+  --brand-primary-hover: #0B7FDB;
+  --brand-primary-light: #E0F2FF;
+  
+  /* --- ML Sensitivity Colors (Light Mode) --- */
+  --sensitivity-low-bg: #E0F7FF;
+  --sensitivity-low-text: #0077B6;
+  --sensitivity-low-border: #B3E5FC;
+  
+  --sensitivity-medium-bg: #FFF4E0;
+  --sensitivity-medium-text: #C77700;
+  --sensitivity-medium-border: #FFE0B2;
+  
+  --sensitivity-high-bg: #FFE5E5;
+  --sensitivity-high-text: #C53030;
+  --sensitivity-high-border: #FFC9C9;
+  
+  /* --- Sidebar (Always Dark) --- */
+  --sidebar-bg: #0B0E14;
+  --sidebar-text: #FFFFFF;
+  --sidebar-text-muted: rgba(255, 255, 255, 0.7);
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-accent: #00F0FF;
+  --sidebar-accent-bg: rgba(0, 240, 255, 0.1);
+  --sidebar-accent-border: rgba(0, 240, 255, 0.2);
+  
+  /* --- Status Colors --- */
+  --status-success: #10B981;
+  --status-success-bg: #D1FAE5;
+  --status-warning: #F59E0B;
+  --status-warning-bg: #FEF3C7;
+  --status-error: #EF4444;
+  --status-error-bg: #FEE2E2;
+  
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* --- Tailwind Compatibility --- */
+  --background: #F8F9FA;
+  --foreground: #111827;
+  --card: #FFFFFF;
+  --card-foreground: #111827;
+  --popover: #FFFFFF;
+  --popover-foreground: #111827;
+  --primary: #0D99FF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F3F4F6;
+  --secondary-foreground: #111827;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  --accent: #E0F2FF;
+  --accent-foreground: #0D99FF;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #E6E8EB;
+  --input: #F9FAFB;
+  --input-background: #F9FAFB;
+  --switch-background: #E6E8EB;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #0D99FF;
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* --- Figma Dark Mode --- */
+  --bg-app: #1E1E1E;            /* App Background (Figma Dark) */
+  --bg-surface: #2C2C2C;        /* Card/Modal Surface */
+  --bg-elevated: #383838;       /* Elevated surfaces */
+  --border-color: #444444;      /* Subtle borders */
+  --text-primary: #FFFFFF;      /* Primary text */
+  --text-secondary: #B3B3B3;    /* Secondary text */
+  --text-tertiary: #808080;     /* Tertiary/disabled text */
+  
+  /* --- Brand Colors (Dark Mode) --- */
+  --brand-primary: #0D99FF;
+  --brand-primary-hover: #2DA8FF;
+  --brand-primary-light: rgba(13, 153, 255, 0.15);
+  
+  /* --- ML Sensitivity Colors (Dark Mode) --- */
+  --sensitivity-low-bg: rgba(0, 209, 255, 0.15);
+  --sensitivity-low-text: #5DD5FF;
+  --sensitivity-low-border: rgba(0, 209, 255, 0.3);
+  
+  --sensitivity-medium-bg: rgba(255, 184, 0, 0.15);
+  --sensitivity-medium-text: #FFD24D;
+  --sensitivity-medium-border: rgba(255, 184, 0, 0.3);
+  
+  --sensitivity-high-bg: rgba(255, 59, 59, 0.15);
+  --sensitivity-high-text: #FF6B6B;
+  --sensitivity-high-border: rgba(255, 59, 59, 0.3);
+  
+  /* --- Status Colors (Dark Mode) --- */
+  --status-success: #34D399;
+  --status-success-bg: rgba(16, 185, 129, 0.15);
+  --status-warning: #FBBF24;
+  --status-warning-bg: rgba(245, 158, 11, 0.15);
+  --status-error: #F87171;
+  --status-error-bg: rgba(239, 68, 68, 0.15);
+  
+  /* --- Shadows (Dark Mode - more subtle) --- */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  
+  /* --- Tailwind Compatibility (Dark Mode) --- */
+  --background: #1E1E1E;
+  --foreground: #FFFFFF;
+  --card: #2C2C2C;
+  --card-foreground: #FFFFFF;
+  --popover: #2C2C2C;
+  --popover-foreground: #FFFFFF;
+  --primary: #0D99FF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #383838;
+  --secondary-foreground: #FFFFFF;
+  --muted: #383838;
+  --muted-foreground: #B3B3B3;
+  --accent: rgba(13, 153, 255, 0.15);
+  --accent-foreground: #0D99FF;
+  --destructive: #F87171;
+  --destructive-foreground: #FFFFFF;
+  --border: #444444;
+  --input: #383838;
+  --input-background: #383838;
+  --switch-background: #444444;
+  --ring: #0D99FF;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    line-height: 1.3;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    line-height: 1.3;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: 1.4;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1.4;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: 500;
+    line-height: 1.5;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1.5;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
