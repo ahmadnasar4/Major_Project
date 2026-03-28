@@ -27,12 +27,12 @@ from key_storage import key_storage
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+# CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 # Isme local aur render dono URLs ki list hai
-# CORS(app, supports_credentials=True, origins=[
-#     "http://localhost:5173", 
-#     "https://cogniguard-react-1.onrender.com"
-# ])
+CORS(app, supports_credentials=True, origins=[
+    "http://localhost:5173", 
+    "https://major-project-frontend-nzxa.onrender.com/"
+])
 
 app.config.update(
     SESSION_COOKIE_SAMESITE='Lax', 
