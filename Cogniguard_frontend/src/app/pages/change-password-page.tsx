@@ -30,17 +30,17 @@ export function ChangePasswordPage() {
     try {
       // 2. Perform API request to Flask backend
       const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          // DHAYAN DO: Backend ye exact keys mang raha hai
-          old_password: currentPassword, 
-          new_password: newPassword
-        }),
-      });
-
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  // YE LINE ADD KARNA ZAROORI HAI
+  credentials: 'include', 
+  body: JSON.stringify({
+    old_password: currentPassword, 
+    new_password: newPassword
+  }),
+});
       const data = await response.json();
 
       if (response.ok) {

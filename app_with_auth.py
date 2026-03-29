@@ -14,6 +14,8 @@ from flask_cors import CORS
 from flask_mail import Mail, Message
 from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
+from datetime import datetime
+import pytz
 
 # Import models and blueprints
 from models import db, User, EncryptedFile, AuditLog, SharedKey
@@ -125,6 +127,11 @@ def write_metrics_to_csv(csv_file, metrics_dict, fieldnames):
             print(f"DEBUG: CSV {csv_file} updated successfully.") # Ye check karne ke liye
     except Exception as e:
         print(f"CRITICAL ERROR writing to CSV: {e}")
+
+def get_ist_now():
+    """Hamesha Indian Standard Time (IST) return karega"""
+    ist = pytz.timezone('Asia/Kolkata')
+    return datetime.now(ist)
 # ============================================
 # EXISTING HTML ROUTES (KEPT & RESTORED)
 # ============================================
@@ -674,8 +681,10 @@ def upload_file():
     # --- ADD THIS METRICS LOGGING ---
     try:
         process = psutil.Process(os.getpid())
+
+        ist_now = get_ist_now() # IST time lo
         upload_metrics = {
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': ist_now.isoformat(),
             'username': current_user.username,
             'filename': file.filename,
             'file_size_bytes': len(file_data),
