@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { API_BASE_URL } from '../../api-config';
 
 const PerformanceDashboard = () => {
     const [uploadData, setUploadData] = useState([]);
     const [downloadData, setDownloadData] = useState([]);
 
     useEffect(() => {
-        // Fetch upload metrics
-        fetch('/api/metrics/upload')
-            .then(res => res.json())
-            .then(data => setUploadData(data));
+    // 1. Fetch upload metrics with FULL URL and CREDENTIALS
+    fetch(`${API_BASE_URL}/api/metrics/upload`, { 
+        credentials: 'include' 
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+    })
+    .then(data => setUploadData(data))
+    .catch(err => console.error("Upload stats error:", err));
 
-        // Fetch download metrics
-        fetch('/api/metrics/download')
-            .then(res => res.json())
-            .then(data => setDownloadData(data));
-    }, []);
+    // 2. Fetch download metrics with FULL URL and CREDENTIALS
+    fetch(`${API_BASE_URL}/api/metrics/download`, { 
+        credentials: 'include' 
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+    })
+    .then(data => setDownloadData(data))
+    .catch(err => console.error("Download stats error:", err));
+}, []);
 
     return (
         <div className="metrics-container space-y-8">

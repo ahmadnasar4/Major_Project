@@ -1,5 +1,6 @@
 import { FileText, Share2, Download, Trash2, User2 } from "lucide-react"; 
 import { SensitivityBadge } from "./sensitivity-badge";
+import { API_BASE_URL } from '../../api-config';
 
 type FileItem = {
   id: number;
@@ -28,53 +29,53 @@ const mlReasons = {
 export function FileList({ files, onShare, onRefresh }: FileListProps) {
   
   // --- REAL DOWNLOAD LOGIC (ZINDA KIYA HAI) ---
-  const handleDownload = async (fileId: number, fileName: string) => {
-    try {
-      // Backend route /api/download/<id> ko hit karega
-      const response = await fetch(`/api/download/${fileId}`, {
-        method: 'GET',
-        credentials: 'include', 
-      });
+// src/app/components/file-list.tsx (Line 35 ke paas)
+const handleDownload = async (fileId: number, fileName: string) => {
+  try {
+    // Yahan API_BASE_URL add karein taaki sahi backend hit ho
+    const response = await fetch(`${API_BASE_URL}/api/download/${fileId}`, {
+      method: 'GET',
+      credentials: 'include', // Cookies ke liye ye zaroori hai
+    });
 
-      if (!response.ok) {
-        alert("Download failed. Unauthorized or file missing.");
-        return;
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', fileName);
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Download error:", error);
+    if (!response.ok) {
+      alert("Download failed. Unauthorized or file missing.");
+      return;
     }
-  };
 
-  // --- REAL DELETE LOGIC (ZINDA KIYA HAI) ---
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode?.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Download error:", error);
+  }
+};
+
   const handleDelete = async (fileId: number, fileName: string) => {
-    if (!window.confirm(`Permanently delete "${fileName}"?`)) return;
+  if (!window.confirm(`Permanently delete "${fileName}"?`)) return;
 
-    try {
-      // Backend route /api/delete/<id> ko hit karega
-      const response = await fetch(`/api/delete/${fileId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
+  try {
+    // Yahan API_BASE_URL lagana zaroori hai
+    const response = await fetch(`${API_BASE_URL}/api/delete/${fileId}`, {
+      method: 'DELETE',
+      credentials: 'include', // Cookies ke liye ye sahi hai
+    });
 
-      if (response.ok) {
-        if (onRefresh) onRefresh(); // Dashboard reload karega
-      } else {
-        alert("Delete failed.");
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
+    if (response.ok) {
+      if (onRefresh) onRefresh(); 
+    } else {
+      alert("Delete failed.");
     }
-  };
+  } catch (error) {
+    console.error("Delete error:", error);
+  }
+};
 
   return (
     <div style={{ borderTop: '1px solid var(--border-color)' }}>
