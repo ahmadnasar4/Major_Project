@@ -33,12 +33,15 @@ CORS(app, supports_credentials=True, origins=[
     "http://localhost:5173", 
     "https://major-project-frontend-nzxa.onrender.com/"
 ])
-
+# app_with_auth.py around line 35
 app.config.update(
-    SESSION_COOKIE_SAMESITE='Lax', 
-    SESSION_COOKIE_SECURE=False,   
-    SESSION_COOKIE_HTTPONLY=True
+    SESSION_COOKIE_SAMESITE='None', # Required for cross-site cookies
+    SESSION_COOKIE_SECURE=True,     # Required when SameSite='None'
+    SESSION_COOKIE_HTTPONLY=True,
+    REMEMBER_COOKIE_SAMESITE='None',
+    REMEMBER_COOKIE_SECURE=True
 )
+
 UPLOAD_FOLDER = 'encrypted_uploads' # Folder ka naam
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER # Isse KeyError khatam ho jayega
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
