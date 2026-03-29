@@ -1,6 +1,7 @@
 // Cogniguard_frontend/src/api-config.ts
 
-// Bina kisi dynamic check ke, direct backend URL daal do testing ke liye
+// Koi import.meta.env nahi, koi window.location nahi
+// Direct backend URL ko string mein daal do
 export const API_BASE_URL = 'https://major-project-8tc8.onrender.com';
 
 export const API_ENDPOINTS = {
