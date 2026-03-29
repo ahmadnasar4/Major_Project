@@ -1,12 +1,7 @@
 // Cogniguard_frontend/src/api-config.ts
 
-// @ts-ignore
-const env = import.meta.env;
-
-export const API_BASE_URL = (env && env.VITE_API_BASE_URL) || 
-  (window.location.hostname === "localhost" 
-    ? 'http://localhost:5000' 
-    : 'https://major-project-8tc8.onrender.com');
+// Bina kisi dynamic check ke, direct backend URL daal do testing ke liye
+export const API_BASE_URL = 'https://major-project-8tc8.onrender.com';
 
 export const API_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/auth/login`,
