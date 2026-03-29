@@ -6,6 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
+import { API_ENDPOINTS } from '../../api-config';
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export function RegisterPage() {
     e.preventDefault();
     setError(null);
 
-    // 1. Basic Client-side Validation
+    // 1. Client-side Validation
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -35,8 +36,8 @@ export function RegisterPage() {
     setIsLoading(true);
 
     try {
-      // 2. Call the Flask API 
-      const response = await fetch('/auth/register', {
+      // 2. Updated to use Production API_ENDPOINTS
+      const response = await fetch(`${API_ENDPOINTS}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,11 +53,9 @@ export function RegisterPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // 3. Navigate to 2FA Setup upon success
-        // We pass the email in state so the Setup page knows which user to link
+        // 3. Navigate to 2FA Setup
         navigate("/setup-2fa", { state: { email: email } });
       } else {
-        // Handle backend errors (e.g., Email already exists)
         setError(data.error || "Registration failed. Please try again.");
       }
     } catch (err) {

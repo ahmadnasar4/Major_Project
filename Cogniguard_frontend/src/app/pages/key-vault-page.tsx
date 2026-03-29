@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
+import { API_ENDPOINTS } from '../../api-config';
 
 export function KeyVaultPage() {
   const navigate = useNavigate();
@@ -14,7 +15,10 @@ export function KeyVaultPage() {
   // --- 1. FETCH REAL KEY METADATA FROM BACKEND ---
   const fetchKeys = async () => {
     try {
-      const response = await fetch('/api/vault/keys');
+      // Added API_ENDPOINTS and credentials for session-based auth
+      const response = await fetch(`${API_ENDPOINTS}/api/vault/keys`, {
+        credentials: 'include'
+      });
       if (response.ok) {
         const data = await response.json();
         setKeys(data);
@@ -32,14 +36,17 @@ export function KeyVaultPage() {
 
   // --- 2. KEY ROTATION LOGIC ---
   const handleRotate = async (keyId: string | number) => {
-    const confirmMessage = "Rotating this key will generate a new RSA-4096 pair. Existing files will still require the previous key for decryption until re-encrypted. Proceed?";
+    const confirmMessage = "Rotating this key will generate a new RSA-4096 pair. Proceed?";
     if (!window.confirm(confirmMessage)) return;
 
     try {
-      const response = await fetch(`/api/vault/rotate/${keyId}`, { method: 'POST' });
+      const response = await fetch(`${API_ENDPOINTS}/api/vault/rotate/${keyId}`, { 
+        method: 'POST',
+        credentials: 'include' 
+      });
       if (response.ok) {
         alert("Key rotation successful. New fingerprint generated.");
-        fetchKeys(); // Refresh the list
+        fetchKeys();
       }
     } catch (error) {
       alert("Failed to rotate key. System integrity protected.");
@@ -55,7 +62,7 @@ export function KeyVaultPage() {
   // --- 3. EXPORT PUBLIC KEY LOGIC ---
 const handleExport = async (level: string) => {
     try {
-      const response = await fetch(`/api/vault/export/${level}`, {
+      const response = await fetch(`${API_ENDPOINTS}/api/vault/export/${level}`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -69,9 +76,9 @@ const handleExport = async (level: string) => {
         document.body.appendChild(link);
         link.click();
         link.parentNode?.removeChild(link);
-        window.URL.revokeObjectURL(url); // Memory saaf karne ke liye
+        window.URL.revokeObjectURL(url);
       } else {
-        alert("Export failed: Server returned 404. Check if route exists in app_with_auth.py");
+        alert("Export failed: Key not found on server.");
       }
     } catch (error) {
       console.error("Export error:", error);

@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { ThemeToggle } from "../components/theme-toggle";
+import { API_ENDPOINTS } from '../../api-config';
 
 export function MLStatsPage() {
   const navigate = useNavigate();
@@ -25,7 +26,11 @@ export function MLStatsPage() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await fetch('/api/ml-stats');
+        // Updated URL and added credentials
+        const response = await fetch(`${API_ENDPOINTS}/api/ml-stats`, {
+          credentials: 'include'
+        });
+        
         if (response.ok) {
           const data = await response.json();
           
@@ -35,8 +40,8 @@ export function MLStatsPage() {
           setMetrics({
             accuracy: data.model_accuracy,
             throughput: data.current_throughput,
-            cpuLoad: Number(data.cpuLoad)||0,
-            lastUpdate: data.last_model_update||"Just now"
+            cpuLoad: Number(data.cpuLoad) || 0,
+            lastUpdate: data.last_model_update || "Just now"
           });
         }
       } catch (error) {

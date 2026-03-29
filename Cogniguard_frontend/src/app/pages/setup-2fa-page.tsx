@@ -5,6 +5,7 @@ import { Shield, Key, Copy, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
+import { API_ENDPOINTS } from '../../api-config';
 
 export function Setup2FAPage() {
   const navigate = useNavigate();
@@ -16,29 +17,33 @@ export function Setup2FAPage() {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
 
   useEffect(() => {
-  const fetch2FAData = async () => {
-    try {
-      // fetch ke andar options object dalo
-      const response = await fetch('/auth/setup-2fa-data', {
-        credentials: 'include' // <--- Ye ab sahi jagah hai
-      });
+    const fetch2FAData = async () => {
+      try {
+        // 1. Corrected URL to use API_ENDPOINTS
+        const response = await fetch(`${API_ENDPOINTS}/auth/setup-2fa-data`, {
+          credentials: 'include' 
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setSecretKey(data.secret);
-        setQrCodeUrl(data.qr_url);
-      } else {
-        console.error("Server returned error:", response.status);
+        if (response.ok) {
+          const data = await response.json();
+          setSecretKey(data.secret);
+          
+          // 2. Ensure QR URL is absolute so it loads from Render
+          const absoluteQrUrl = data.qr_url.startsWith('http') 
+            ? data.qr_url 
+            : `${API_ENDPOINTS}${data.qr_url}`;
+            
+          setQrCodeUrl(absoluteQrUrl);
+        }
+      } catch (error) {
+        console.error("Failed to fetch 2FA setup data", error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error("Failed to fetch 2FA setup data", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
-  fetch2FAData();
-}, []);
+    fetch2FAData();
+  }, []);
   
 
   const handleCopy = () => {

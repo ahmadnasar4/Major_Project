@@ -6,6 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
+import { API_ENDPOINTS } from '../../api-config';
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ export function ForgotPasswordPage() {
     setIsLoading(true);
 
     try {
-      // 1. Call the Flask Auth Blueprint endpoint
-      const response = await fetch('/auth/forgot-password', { // Corrected URL{
+      // 1. Call the Flask Auth Blueprint endpoint using the central config
+      const response = await fetch(`${API_ENDPOINTS}/auth/forgot-password`, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,8 +29,7 @@ export function ForgotPasswordPage() {
         body: JSON.stringify({ email: email }),
       });
 
-      // 2. We set 'sent' to true regardless of success to prevent 
-      // hackers from guessing which emails are registered (Security Best Practice)
+      // 2. Security Best Practice: prevent email enumeration
       if (response.ok || response.status === 404) {
         setSent(true);
       } else {

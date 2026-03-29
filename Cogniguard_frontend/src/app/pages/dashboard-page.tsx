@@ -17,7 +17,7 @@ import { MobileNav } from "../components/mobile-nav";
 import { QuickUploadCard } from "../components/quick-upload-card";
 import { ThemeToggle } from "../components/theme-toggle";
 import PerformanceDashboard from "../components/PerformanceDashboard";
-
+import { API_ENDPOINTS } from '../../api-config';
 export function DashboardPage() {
   const navigate = useNavigate();
   
@@ -39,30 +39,28 @@ export function DashboardPage() {
 
   // --- 1. DATA FETCHING (UNIFIED LOAD) ---
   // DashboardPage.tsx mein loadData ko aise update karo:
-// DashboardPage.tsx mein loadData ko aise update karo:
 const loadData = async () => {
   try {
     const [filesRes, statsRes] = await Promise.all([
-      fetch('/api/files', { credentials: 'include' }),
-      fetch('/api/profile', { credentials: 'include' })
+      // Added API_ENDPOINTS to the fetch calls
+      fetch(`${API_ENDPOINTS}/api/files`, { credentials: 'include' }),
+      fetch(`${API_ENDPOINTS}/api/profile`, { credentials: 'include' })
     ]);
 
     if (filesRes.ok && statsRes.ok) {
       const filesData = await filesRes.json();
       const statsData = await statsRes.json();
 
-      // FIX: Dono arrays ko merge karo taaki Table mein dono dikhein
       const combinedFiles = [
         ...(filesData.owned_files || []),
         ...(filesData.shared_files || [])
       ];
       
-      setFiles(combinedFiles); // Ab 'files' state mein dono data hain
+      setFiles(combinedFiles); 
       
       const s = statsData.stats || {}; 
       setStats({
         totalFiles: s.filesEncrypted || 0,
-        // Dashboard counters ke liye combined list use karo
         highRisk: combinedFiles.filter((f: any) => f.sensitivity === 'HIGH').length || 0,
         mediumRisk: combinedFiles.filter((f: any) => f.sensitivity === 'MEDIUM').length || 0,
         lowRisk: combinedFiles.filter((f: any) => f.sensitivity === 'LOW').length || 0,
@@ -108,17 +106,17 @@ const loadData = async () => {
       formData.append('file', file);
 
       try {
-        const response = await fetch('/api/upload', {
+        const response = await fetch(`${API_ENDPOINTS}/api/upload`, {
           method: 'POST',
           body: formData,
         });
         if (response.ok) {
-           setTimeout(() => {
-               setShowAnalyzer(false);
-               loadData(); 
-           }, 2000);
+          setTimeout(() => {
+            setShowAnalyzer(false);
+            loadData();
+          }, 2000);
         }
-      } catch (err) {
+      }catch (err) {
         console.error("Upload error:", err);
         setShowAnalyzer(false);
       }

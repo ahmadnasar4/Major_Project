@@ -4,6 +4,7 @@ import { Shield, ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
+import { API_ENDPOINTS } from '../../api-config';
 
 export function Verify2FAPage() {
   const navigate = useNavigate();
@@ -45,10 +46,11 @@ export function Verify2FAPage() {
     const fullCode = mfaCode.join("");
 
     try {
-      const response = await fetch('/auth/verify-mfa', {
+      // 1. Updated to use Production API_ENDPOINTS
+      const response = await fetch(`${API_ENDPOINTS}/auth/verify-mfa`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', //
+        credentials: 'include', // Vital for the backend to verify the pending session
         body: JSON.stringify({ 
           email: email, 
           code: fullCode 
@@ -58,11 +60,11 @@ export function Verify2FAPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // Success: Backend has set the session cookie
+        // Success: Backend has now fully authorized the session
         navigate("/dashboard");
       } else {
         setError(data.error || "Invalid verification code. Please try again.");
-        setMfaCode(["", "", "", "", "", ""]); // Reset inputs on error
+        setMfaCode(["", "", "", "", "", ""]); 
         document.getElementById('mfa-0')?.focus();
       }
     } catch (err) {
