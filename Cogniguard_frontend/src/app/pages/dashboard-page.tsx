@@ -17,7 +17,7 @@ import { MobileNav } from "../components/mobile-nav";
 import { QuickUploadCard } from "../components/quick-upload-card";
 import { ThemeToggle } from "../components/theme-toggle";
 import PerformanceDashboard from "../components/PerformanceDashboard";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 export function DashboardPage() {
   const navigate = useNavigate();
   
@@ -43,8 +43,8 @@ const loadData = async () => {
   try {
     const [filesRes, statsRes] = await Promise.all([
       // Added API_ENDPOINTS to the fetch calls
-      fetch(`${API_ENDPOINTS}/api/files`, { credentials: 'include' }),
-      fetch(`${API_ENDPOINTS}/api/profile`, { credentials: 'include' })
+      fetch(`${API_BASE_URL}/api/files`, { credentials: 'include' }),
+      fetch(`${API_BASE_URL}/api/profile`, { credentials: 'include' })
     ]);
 
     if (filesRes.ok && statsRes.ok) {
@@ -106,7 +106,7 @@ const loadData = async () => {
       formData.append('file', file);
 
       try {
-        const response = await fetch(`${API_ENDPOINTS}/api/upload`, {
+        const response = await fetch(`${API_BASE_URL}/api/upload`, {
           method: 'POST',
           body: formData,
         });

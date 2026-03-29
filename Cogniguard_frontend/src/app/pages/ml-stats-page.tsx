@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function MLStatsPage() {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export function MLStatsPage() {
     const fetchAnalytics = async () => {
       try {
         // Updated URL and added credentials
-        const response = await fetch(`${API_ENDPOINTS}/api/ml-stats`, {
+        const response = await fetch(`${API_BASE_URL}/api/ml-stats`, {
           credentials: 'include'
         });
         

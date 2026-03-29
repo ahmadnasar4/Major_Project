@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function KeyVaultPage() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export function KeyVaultPage() {
   const fetchKeys = async () => {
     try {
       // Added API_ENDPOINTS and credentials for session-based auth
-      const response = await fetch(`${API_ENDPOINTS}/api/vault/keys`, {
+      const response = await fetch(`${API_BASE_URL}/api/vault/keys`, {
         credentials: 'include'
       });
       if (response.ok) {
@@ -40,7 +40,7 @@ export function KeyVaultPage() {
     if (!window.confirm(confirmMessage)) return;
 
     try {
-      const response = await fetch(`${API_ENDPOINTS}/api/vault/rotate/${keyId}`, { 
+      const response = await fetch(`${API_BASE_URL}/api/vault/rotate/${keyId}`, { 
         method: 'POST',
         credentials: 'include' 
       });
@@ -62,7 +62,7 @@ export function KeyVaultPage() {
   // --- 3. EXPORT PUBLIC KEY LOGIC ---
 const handleExport = async (level: string) => {
     try {
-      const response = await fetch(`${API_ENDPOINTS}/api/vault/export/${level}`, {
+      const response = await fetch(`${API_BASE_URL}/api/vault/export/${level}`, {
         method: 'GET',
         credentials: 'include',
       });

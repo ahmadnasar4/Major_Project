@@ -5,7 +5,7 @@ import { Shield, Key, Copy, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function Setup2FAPage() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export function Setup2FAPage() {
     const fetch2FAData = async () => {
       try {
         // 1. Corrected URL to use API_ENDPOINTS
-        const response = await fetch(`${API_ENDPOINTS}/auth/setup-2fa-data`, {
+        const response = await fetch(`${API_BASE_URL}/auth/setup-2fa-data`, {
           credentials: 'include' 
         });
 
@@ -31,7 +31,7 @@ export function Setup2FAPage() {
           // 2. Ensure QR URL is absolute so it loads from Render
           const absoluteQrUrl = data.qr_url.startsWith('http') 
             ? data.qr_url 
-            : `${API_ENDPOINTS}${data.qr_url}`;
+            : `${API_BASE_URL}${data.qr_url}`;
             
           setQrCodeUrl(absoluteQrUrl);
         }

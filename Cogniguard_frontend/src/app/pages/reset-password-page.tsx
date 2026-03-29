@@ -6,7 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ export function ResetPasswordPage() {
     setIsLoading(true);
 
     try {
-      // Updated to use production API_ENDPOINTS
-      const response = await fetch(`${API_ENDPOINTS}/auth/reset-password`, {
+      // Updated to use production 
+      const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, password }),

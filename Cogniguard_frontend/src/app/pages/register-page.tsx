@@ -6,7 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ export function RegisterPage() {
     setIsLoading(true);
 
     try {
-      // 2. Updated to use Production API_ENDPOINTS
-      const response = await fetch(`${API_ENDPOINTS}/auth/register`, {
+      // 2. Updated to use Production
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

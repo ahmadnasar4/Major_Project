@@ -4,7 +4,7 @@ import { Shield, ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function Verify2FAPage() {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export function Verify2FAPage() {
 
     try {
       // 1. Updated to use Production API_ENDPOINTS
-      const response = await fetch(`${API_ENDPOINTS}/auth/verify-mfa`, {
+      const response = await fetch(`${API_BASE_URL}/auth/verify-mfa`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include', // Vital for the backend to verify the pending session

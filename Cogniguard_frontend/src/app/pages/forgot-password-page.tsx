@@ -6,7 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export function ForgotPasswordPage() {
 
     try {
       // 1. Call the Flask Auth Blueprint endpoint using the central config
-      const response = await fetch(`${API_ENDPOINTS}/auth/forgot-password`, { 
+      const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

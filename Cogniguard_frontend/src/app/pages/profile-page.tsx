@@ -9,7 +9,7 @@ import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ export function ProfilePage() {
     const fetchProfileData = async () => {
       try {
         const [profileRes, logsRes] = await Promise.all([
-          fetch(`${API_ENDPOINTS}/api/profile`, { credentials: 'include' }),
-          fetch(`${API_ENDPOINTS}/api/logs`, { credentials: 'include' })
+          fetch(`${API_BASE_URL}/api/profile`, { credentials: 'include' }),
+          fetch(`${API_BASE_URL}/api/logs`, { credentials: 'include' })
         ]);
 
         if (profileRes.ok && logsRes.ok) {
@@ -49,7 +49,7 @@ export function ProfilePage() {
 
   const handleExportCSV = (type: 'upload' | 'download') => {
     // Dynamically point to production backend
-    const url = `${API_ENDPOINTS}/download/report/${type}_metrics`;
+    const url = `${API_BASE_URL}/download/report/${type}_metrics`;
     window.open(url, '_blank');
   };
 
@@ -57,7 +57,7 @@ export function ProfilePage() {
 const handleDeleteAccount = async () => {
     if (window.confirm("Do you want to delete your account? This action cannot be undone.")) {
       try {
-        const response = await fetch(`${API_ENDPOINTS}/auth/delete-account`, {
+        const response = await fetch(`${API_BASE_URL}/auth/delete-account`, {
           method: 'DELETE',
           credentials: 'include'
         });

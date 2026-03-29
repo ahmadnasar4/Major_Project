@@ -7,7 +7,7 @@ import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
 // import ko file ke top par add karo
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function ChangePasswordPage() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export function ChangePasswordPage() {
     setIsLoading(true);
     try {
       // 2. Perform API request to Flask backend
-      const response = await fetch(`${API_ENDPOINTS}/auth/change-password`, {
+      const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

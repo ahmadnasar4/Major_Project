@@ -3,7 +3,7 @@ import { CheckCircle2, Shield, ArrowRight, BarChart3 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function SuccessPage() {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { ThemeToggle } from "../components/theme-toggle";
-import { API_ENDPOINTS } from '../../api-config';
+import { API_BASE_URL } from '../../api-config';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export function LoginPage() {
     try {
       if (!showMFA) {
         // STEP 1: Initial Credentials Check
-        const response = await fetch(`${API_ENDPOINTS}/auth/login`, {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
@@ -43,7 +43,7 @@ export function LoginPage() {
       } else {
         // STEP 2: MFA Code Verification
         const fullCode = mfaCode.join("");
-        const response = await fetch(`${API_ENDPOINTS}/auth/verify-mfa`, {
+        const response = await fetch(`${API_BASE_URL}/auth/verify-mfa`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, code: fullCode }),
