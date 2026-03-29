@@ -31,7 +31,7 @@ app = Flask(__name__)
 # Isme local aur render dono URLs ki list hai
 CORS(app, supports_credentials=True, origins=[
     "http://localhost:5173", 
-    "https://major-project-frontend-nzxa.onrender.com/"
+    "https://major-project-frontend-nzxa.onrender.com"
 ])
 # app_with_auth.py around line 35
 app.config.update(
