@@ -1,11 +1,14 @@
-// src/api-config.ts
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
+// Cogniguard_frontend/src/api-config.ts
+
+// @ts-ignore
+const env = import.meta.env;
+
+export const API_BASE_URL = (env && env.VITE_API_BASE_URL) || 
   (window.location.hostname === "localhost" 
     ? 'http://localhost:5000' 
     : 'https://major-project-8tc8.onrender.com');
 
 export const API_ENDPOINTS = {
-  // Use backticks (`) here, NOT single quotes
   LOGIN: `${API_BASE_URL}/auth/login`,
   REGISTER: `${API_BASE_URL}/auth/register`,
   FILES: `${API_BASE_URL}/api/files`,
