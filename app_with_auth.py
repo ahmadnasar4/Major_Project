@@ -29,9 +29,10 @@ load_dotenv()
 app = Flask(__name__)
 # CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 # Isme local aur render dono URLs ki list hai
+# app_with_auth.py (Line 30 ke paas)
 CORS(app, supports_credentials=True, origins=[
     "http://localhost:5173", 
-    "https://major-project-frontend-nzxa.onrender.com"
+    "https://major-project-frontend-nzxa.onrender.com" 
 ])
 # app_with_auth.py around line 35
 app.config.update(
