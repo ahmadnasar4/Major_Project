@@ -4,6 +4,8 @@
 // Direct backend URL ko string mein daal do
 export const API_BASE_URL = 'https://major-project-8tc8.onrender.com';
 
+
+
 export const API_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/auth/login`,
   REGISTER: `${API_BASE_URL}/auth/register`,

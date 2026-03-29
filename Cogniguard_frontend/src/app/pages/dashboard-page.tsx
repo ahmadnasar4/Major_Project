@@ -109,6 +109,7 @@ const loadData = async () => {
         const response = await fetch(`${API_BASE_URL}/api/upload`, {
           method: 'POST',
           body: formData,
+          credentials: 'include',
         });
         if (response.ok) {
           setTimeout(() => {
