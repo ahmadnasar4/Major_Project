@@ -570,18 +570,29 @@ def download_file(file_id):
         
         # 3. File data read karo
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_info.filename)
-        with open(file_path, 'rb') as f:
-            encrypted_file_data = f.read()
+        try:
+            with open(file_path, 'rb') as f:
+                encrypted_file_data = f.read()
+        except FileNotFoundError:
+            return jsonify({"error": "Physical file not found on server. It might have been cleared during a Render restart. Please re-upload."}), 404
+
             
         # 4. Sahi User ki Keys uthao
         # Current logged-in user (recipient) ki private key use honi chahiye
         user_keys = key_storage.get_user_keys(current_user.username, file_info.sensitivity)
         
+        if not user_keys or 'private_key' not in user_keys:
+            print(f"DEBUG: Regenerating missing keys for {current_user.username}")
+            key_storage.generate_user_keys(current_user.username, file_info.sensitivity)
+            user_keys = key_storage.get_user_keys(current_user.username, file_info.sensitivity)
+
+        private_key = user_keys['private_key']
         # 5. Adaptive Decryption
         # Ensure karo ki 'enc_aes_key' wahi hai jo sharing ke waqt recipient ke liye bani thi
         decrypted_data = adaptive_crypto.decrypt_file(
             encrypted_file_data, 
-            enc_aes_key, 
+            enc_aes_key,
+            private_key 
             user_keys['private_key'], 
             file_info.sensitivity
         )
@@ -645,6 +656,11 @@ def upload_file():
     # Ab 'file_data' defined hai toh error nahi aayega
     user_keys = key_storage.get_user_keys(current_user.username, sensitivity)
     public_key = user_keys['public_key']
+
+    if not user_keys or 'public_key' not in user_keys:
+        print(f"DEBUG: Generating missing {sensitivity} keys for {current_user.username}")
+        key_storage.generate_user_keys(current_user.username, sensitivity)
+        user_keys = key_storage.get_user_keys(current_user.username, sensitivity)
 
     encrypted_data, enc_aes_key, crypto_cfg = adaptive_crypto.encrypt_file(
         file_data, 
