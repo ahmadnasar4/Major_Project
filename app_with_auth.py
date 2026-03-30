@@ -784,32 +784,43 @@ def share_file_email(file_id):
         data = request.get_json()
         target_email = data.get('email')
         
-        # 1. Check if target email exists
         if not target_email:
             return jsonify({"error": "Email is required"}), 400
 
         file_info = EncryptedFile.query.get_or_404(file_id)
         
-        # 2. Security: Only owner can share
         if file_info.user_id != current_user.id:
             return jsonify({"error": "Unauthorized: Only owners can share"}), 403
 
-        # 3. Find recipient
         target_user = User.query.filter_by(email=target_email).first()
         if not target_user:
             return jsonify({"error": "User with this email not found"}), 404
 
-        # --- RE-ENCRYPTION LOGIC: Fixed Arguments ---
+        # --- SAFE RE-ENCRYPTION LOGIC ---
         
-        # A. Owner ki private key se AES key nikalo (3 arguments: self, key, pvt_key)
+        # A. Owner (Sender) ki keys fetch aur check karo
         owner_keys = key_storage.get_user_keys(current_user.username, file_info.sensitivity)
+        
+        # FIX: Agar owner ki keys missing hain toh generate karo
+        if not owner_keys or 'private_key' not in owner_keys:
+            print(f"DEBUG: Generating missing keys for owner {current_user.username}")
+            key_storage.generate_user_keys(current_user.username, file_info.sensitivity)
+            owner_keys = key_storage.get_user_keys(current_user.username, file_info.sensitivity)
+
         raw_aes_key = adaptive_crypto.decrypt_aes_key(
             file_info.encrypted_aes_key, 
             owner_keys['private_key']
         )
 
-        # B. Target user ki public key se AES key re-encrypt karo
+        # B. Target User (Recipient) ki keys fetch aur check karo
         target_keys = key_storage.get_user_keys(target_user.username, file_info.sensitivity)
+        
+        # FIX: Agar recipient ki keys missing hain toh generate karo
+        if not target_keys or 'public_key' not in target_keys:
+            print(f"DEBUG: Generating missing keys for recipient {target_user.username}")
+            key_storage.generate_user_keys(target_user.username, file_info.sensitivity)
+            target_keys = key_storage.get_user_keys(target_user.username, file_info.sensitivity)
+
         new_encrypted_key = adaptive_crypto.encrypt_aes_key(
             raw_aes_key, 
             target_keys['public_key']
@@ -830,7 +841,7 @@ def share_file_email(file_id):
 
     except Exception as e:
         db.session.rollback()
-        print(f"Share Error: {str(e)}") # Debugging ke liye
+        print(f"Share Error: {str(e)}") 
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
 
