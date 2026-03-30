@@ -155,7 +155,7 @@ export function LoginPage() {
               </Button>
 
               {/* --- GOOGLE LOGIN BUTTON START --- */}
-              <div className="mt-4">
+              {/* <div className="mt-4">
                 <div className="relative flex items-center justify-center mb-4">
                   <div className="w-full border-t" style={{ borderColor: 'var(--border-color)' }}></div>
                   <span className="px-2 text-[10px] uppercase tracking-widest absolute" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-tertiary)' }}>OR</span>
@@ -164,7 +164,7 @@ export function LoginPage() {
                   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4 mr-2" alt="Google" />
                   Continue with Google
                 </Button>
-              </div>
+              </div> */}
 
               <div className="text-center space-y-2">
                 <button type="button" onClick={() => navigate("/forgot-password")} className="text-sm block w-full" style={{ color: 'var(--text-secondary)' }}>Forgot password?</button>
