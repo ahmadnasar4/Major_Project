@@ -24,6 +24,17 @@ class KeyStorage:
         """Save keys to file"""
         with open(self.storage_file, 'w') as f:
             json.dump(self.keys, f, indent=2)
+    def generate_user_keys(self, user_id, sensitivity='MEDIUM'):
+        """Directly generate and store keys for a user"""
+        from crypto_utils_adaptive import adaptive_crypto # Circular import se bachne ke liye
+        
+        # Adaptive manager se keys banwao
+        public_key, private_key, _ = adaptive_crypto.generate_key_pair(sensitivity)
+        
+        # Ise store kar lo
+        self.store_user_keys(public_key, private_key, user_id, sensitivity)
+        print(f"DEBUG: New keys generated and stored for {user_id} ({sensitivity})")
+        return True
     
     def get_user_keys(self, user_id='default_user', sensitivity='MEDIUM'):
         """Get user's key pair for specific sensitivity level"""

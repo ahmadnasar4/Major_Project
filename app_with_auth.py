@@ -654,12 +654,15 @@ def upload_file():
     # 2. Adaptive Encryption
     # Ab 'file_data' defined hai toh error nahi aayega
     user_keys = key_storage.get_user_keys(current_user.username, sensitivity)
-    public_key = user_keys['public_key']
 
+    # --- SAFETY CHECK PEHLE AAYEGA ---
     if not user_keys or 'public_key' not in user_keys:
         print(f"DEBUG: Generating missing {sensitivity} keys for {current_user.username}")
         key_storage.generate_user_keys(current_user.username, sensitivity)
+        # Nayi keys banne ke baad phir se fetch karo
         user_keys = key_storage.get_user_keys(current_user.username, sensitivity)
+
+    public_key = user_keys['public_key']
 
     encrypted_data, enc_aes_key, crypto_cfg = adaptive_crypto.encrypt_file(
         file_data, 
