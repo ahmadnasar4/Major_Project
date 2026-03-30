@@ -27,7 +27,7 @@ export function ShareModal({ open, onOpenChange, file }: ShareModalProps) {
     
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/share-email/${file.id}`,, {
+      const response = await fetch(`${API_BASE_URL}/api/share-email/${file.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
