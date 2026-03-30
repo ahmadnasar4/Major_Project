@@ -592,7 +592,7 @@ def download_file(file_id):
         decrypted_data = adaptive_crypto.decrypt_file(
             encrypted_file_data, 
             enc_aes_key,
-            private_key 
+            private_key ,
             user_keys['private_key'], 
             file_info.sensitivity
         )
