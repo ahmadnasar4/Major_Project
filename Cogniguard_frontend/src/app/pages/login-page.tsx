@@ -160,7 +160,7 @@ export function LoginPage() {
                   <div className="w-full border-t" style={{ borderColor: 'var(--border-color)' }}></div>
                   <span className="px-2 text-[10px] uppercase tracking-widest absolute" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-tertiary)' }}>OR</span>
                 </div>
-                <Button type="button" onClick={() => window.location.href = "http://localhost:5000/auth/google/login"} variant="outline" className="w-full font-semibold border" style={{ borderColor: 'var(--border-color)', color: 'var(--text-primary)', backgroundColor: 'transparent' }}>
+                <Button type="button" onClick={() => window.location.href = `${API_BASE_URL}/auth/google/login`} variant="outline" className="w-full font-semibold border" style={{ borderColor: 'var(--border-color)', color: 'var(--text-primary)', backgroundColor: 'transparent' }}>
                   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-4 h-4 mr-2" alt="Google" />
                   Continue with Google
                 </Button>

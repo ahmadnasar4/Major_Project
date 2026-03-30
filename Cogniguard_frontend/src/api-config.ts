@@ -19,4 +19,5 @@ SHARE_EMAIL: (fileId: number) => `${API_BASE_URL}/api/share-email/${fileId}`,
   DELETE: (id: number) => `${API_BASE_URL}/api/delete/${id}`,
   METRICS_UPLOAD: `${API_BASE_URL}/api/metrics/upload`,
   METRICS_DOWNLOAD: `${API_BASE_URL}/api/metrics/download`,
+  GOOGLE_LOGIN: `${API_BASE_URL}/auth/google/login`
 };

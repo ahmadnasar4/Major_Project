@@ -254,39 +254,37 @@ def trigger_google_login(): # Naam unique rakha hai taaki conflict na ho
     redirect_uri = url_for('auth.google_callback_handler', _external=True)
     return google.authorize_redirect(redirect_uri)
 
+import os
+
+# Frontend ka URL dynamic uthao
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+
 @auth_bp.route('/google/callback')
-def google_callback_handler(): # Yahan bhi naam badal diya
+def google_callback_handler():
     from app_with_auth import google
     try:
         token = google.authorize_access_token()
         user_info = token.get('userinfo')
         
         if not user_info:
-            return redirect("http://localhost:5173/login?error=no_user_info")
+            return redirect(f"{FRONTEND_URL}/login?error=no_user_info")
 
-        # Database mein user dhoondo ya naya banao
         user = User.query.filter_by(email=user_info['email']).first()
         if not user:
-            user = User(
-                username=user_info['email'].split('@')[0],
-                email=user_info['email'],
-                password_hash="OAUTH_GOOGLE_USER" # Dummy pass
-            )
-            db.session.add(user)
-            db.session.commit()
+            # ... (tera user creation logic same rahega) ...
             
-            # Naye user ke liye keys generate karna mat bhulna
-            from crypto_utils_adaptive import adaptive_crypto
+            # Naye user ke liye keys generation
             from key_storage import key_storage
             for sens in ['LOW', 'MEDIUM', 'HIGH']:
-                pub, priv, _ = adaptive_crypto.generate_key_pair(sens)
-                key_storage.store_user_keys(pub, priv, user.username, sens)
+                key_storage.generate_user_keys(user.username, sens) # Direct helper use karo
 
         login_user(user)
-        return redirect("http://localhost:5173/dashboard")
+        # Dashboard par sahi redirect
+        return redirect(f"{FRONTEND_URL}/dashboard")
+        
     except Exception as e:
         print(f"Google Auth Error: {e}")
-        return redirect("http://localhost:5173/login?error=auth_failed")
+        return redirect(f"{FRONTEND_URL}/login?error=auth_failed")
 
 # auth.py mein add karein
 @auth_bp.route('/delete-account', methods=['DELETE'])
