@@ -11,6 +11,8 @@ export const API_ENDPOINTS = {
   PROFILE: `${API_BASE_URL}/api/profile`,
   LOGS: `${API_BASE_URL}/api/logs`,
   VAULT_KEYS: `${API_BASE_URL}/api/vault/keys`,
+  // src/api-config.ts mein add karein
+SHARE_EMAIL: (fileId: number) => `${API_BASE_URL}/api/share-email/${fileId}`,
   
   // --- YE WALE MISSING THAY ---
   DOWNLOAD: (id: number) => `${API_BASE_URL}/api/download/${id}`,

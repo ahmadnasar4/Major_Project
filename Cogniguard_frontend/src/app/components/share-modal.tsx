@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
+import { API_BASE_URL } from '../../api-config';
 
 interface ShareModalProps {
   open: boolean;
@@ -26,11 +27,12 @@ export function ShareModal({ open, onOpenChange, file }: ShareModalProps) {
     
     setLoading(true);
     try {
-      const response = await fetch(`/api/share-email/${file.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/share-email/${file.id}`,, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ email: email }),
       });
 
