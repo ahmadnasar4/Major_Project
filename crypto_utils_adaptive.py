@@ -28,10 +28,12 @@ class AdaptiveCryptoManager:
                 'speed': 'Balanced',
                 'security': 'High'
             },
+           # crypto_utils_adaptive.py mein HIGH config ko aise update karo:
+
             'HIGH': {
                 'aes_key_size': 32,    # 256-bit
-                'rsa_key_size': 4096,  # 4096-bit
-                'name': 'AES-256 + RSA-4096',
+                'rsa_key_size': 2048,  # Render free tier ke liye 2048 best hai
+                'name': 'AES-256 + RSA-2048', # Iska naam bhi update kar diya
                 'speed': 'Slower',
                 'security': 'Maximum'
             }

@@ -589,8 +589,9 @@ def download_file(file_id):
         
         try:
             process = psutil.Process(os.getpid())
+            ist_now = get_ist_now()
             download_metrics = {
-                'timestamp': datetime.now().isoformat(),
+                'timestamp': ist_now.isoformat(),
                 'username': current_user.username,
                 'filename': file_info.original_filename,
                 'file_size_bytes': len(decrypted_data),
